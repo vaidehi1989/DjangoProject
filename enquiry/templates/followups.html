@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{%block title%}Follow-up{% endblock %}
+{% block base %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_javascript jquery='full' %}
+{{ form_schedule.media }}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="teacher-full">
+            <h2 class="heading">{{enquiry.name}}</h2>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Phone</td>
+                    <td>{{enquiry.phone}}</td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td>{{enquiry.email}}</td>
+                </tr>
+                <tr>
+                    <td>Courses</td>
+                    <td>{% for course in enquiry.courses.all %}{{course}}<br>{% endfor%}</td>
+                </tr>
+                <tr>
+                    <td>Remark</td>
+                    <td>{{enquiry.comment|linebreaks}}</td>
+                </tr>
+                <tr>
+                    <td><br>Status</td>
+                    <td>
+                        <div class="col-sm-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{form_status | crispy}}
+                                <button type="submit" class="btn btn-success btn-sm">Update</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Acknowledge</th>
+                    <th>Remark</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for fw in followups %}
+                <tr>
+                    <td>{{fw.scheduled_date}}</td>
+                    <td>{{fw.scheduled_time}}</td>
+                    <td>{%if fw.is_acknowledged%}
+                        Acknowledged
+                        {%else%}
+                        <a data-toggle="modal" data-target="#modal2" href="#">
+                            ACK
+                        </a>
+                        {% endif %}
+                    <td>
+                        {{fw.remarks}}
+                    </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if form_schedule %}
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">Schedule next
+                follow-up
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal1" data-open-onload="{% if form_schedule.errors %}true{% else %}false{% endif%}"
+     data-open-delay="750" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <div class="modal-body"
+                 style="background-size:cover">
+                <div class="row">
+                    <div class="col-md-12 pull-right bginverse pt-20 pb-20">
+                        <h4 class="heading">Schedule Follow-up!</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form_schedule|crispy }}
+                            <button type="submit" class="btn btn-success">Schedule</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal2" data-open-onload="{% if form_ACK.errors %}true{% else %}false{% endif%}"
+     data-open-delay="750" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <div class="modal-body"
+                 style="background-size:cover">
+                <div class="row">
+                    <div class="col-md-12 pull-right bginverse pt-20 pb-20">
+                        <h4 class="heading">Remark!</h4>
+                        <form method="post" id="ack_form">
+                            {% csrf_token %}
+                            {{ form_ACK|crispy }}
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

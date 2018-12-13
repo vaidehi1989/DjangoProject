@@ -1,0 +1,102 @@
+{% extends 'scripts.html' %}
+{%block title%}Home{% endblock %}
+{% block scripts_content %}
+{% load static %}
+<header>
+    <div class="topbar">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    {%if user.is_authenticated%}
+                    <div class="dropdown">
+                        <button class="btn btn-xs" type="button" id="select-lang" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Welcome {{user}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="select-lang">
+                            <li><a href="#">Change Password</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-xs" type="button">
+                            Login
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#main-navigation" aria-expanded="false">
+                    <span class="sr-only">Toggle Menu</span>
+                    <span>Menu</span>
+                </button>
+                <!--<a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=""></a>-->
+            </div>
+
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="{% url 'listEnquiries'%}">Home</a>
+                    </li>
+                    <li><a href="#">About</a>
+                        <ul class="sub-menu">                                    <!-- Sub Menu -->
+                            <li><a href="brief-history.html">Brief History</a></li>
+                            <li><a href=about-educomp.html>About EduComp</a></li>
+                            <li><a href="admission-process.html">Admission Process</a></li>
+                            <li><a href="albums.html">Albums</a></li>
+                            <li><a href="album-single.html">Album Single</a></li>
+                            <li><a href="testimonials.html">Testimonials</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="code-of-conduct.html">Code of Conduct</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Pages</a>
+                        <ul class="sub-menu">
+                            <!-- Sub Menu -->
+                            <li><a href="#"> Courses <i class="fa fa-angle-right pull-right"></i></a>
+                                <ul class="sub-menu">
+                                    <!-- Sub Sub Menu -->
+                                    <li><a href="course-grid.html">Course Grid</a></li>
+                                    <li><a href="course-list.html">Course List</a></li>
+                                    <li><a href="course-detail.html">Course Detail</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Teachers <i class="fa fa-angle-right pull-right"></i></a>
+                                <ul class="sub-menu">
+                                    <!-- Sub Sub Menu -->
+                                    <li><a href="teachers.html">Our Teachers</a></li>
+                                    <li><a href="teacher-profile.html">Teacher Profile</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Events <i class="fa fa-angle-right pull-right"></i></a>
+                                <ul class="sub-menu">
+                                    <!-- Sub Sub Menu -->
+                                    <li><a href="upcoming-events.html">Upcoming Events</a></li>
+                                    <li><a href="event-details.html">Event Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="coming-soon.html">Coming Soon</a></li>
+                            <li><a href="not-found.html">404</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container mt-100 mb-100">
+    <div class="row">
+        {% block base %}
+        {% endblock %}
+    </div>
+</div>
+
+
+{% endblock %}
